@@ -18,7 +18,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     // Use the API you're already familiar with
     let resp = client.get("https://answerthepublic.com").send().await?;
-    println!("{}", resp.text().await?);
+    println!("Status Code: {}", resp.status().as_str());
 
     let websocket = Client::builder()
         .impersonate_websocket(Impersonate::Chrome126)
@@ -33,7 +33,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let (mut tx, mut rx) = websocket.split();
 
     tokio::spawn(async move {
-        for i in 1..11 {
+        for i in 1..6 {
             tx.send(Message::Text(format!("Hello, World! #{i}")))
                 .await
                 .unwrap();
